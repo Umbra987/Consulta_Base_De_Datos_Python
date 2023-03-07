@@ -5,7 +5,7 @@ from df.consulta import consulta_base_de_datos
 
 #Consulta a la base de datos con los valores entregados por el usuario
 def consulta():
-    dep = int(departamento_name.get());
+    dep = departamento_name.get().upper();
     limit = int(value_limite.get());
 
     results = consulta_base_de_datos(dep,limit);
@@ -29,10 +29,13 @@ ventana.title("Contaminación COVID-19");
 etiqueta = grafico.Label(ventana,text="Contaminación COVID-19",font='Helvetica 20 bold');
 etiqueta.pack(fill = grafico.X,pady = 20);
 
-
+letrerodep = grafico.Label(ventana,text="Ingrese el nombre del departamento:");
+letrerodep.pack();
 departamento_name = grafico.Entry(ventana);
 departamento_name.pack(pady= 10);
 
+letrerolimit = grafico.Label(ventana,text="Ingrese el limite de consultas:");
+letrerolimit.pack();
 value_limite = grafico.Entry(ventana);
 value_limite.pack(pady = 10);
 
