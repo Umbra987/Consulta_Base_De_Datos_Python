@@ -1,43 +1,49 @@
 import tkinter as grafico
-from tkinter import ttk
+from tkinter import *
 
 def open_Ventana_Impresion(resultados_busqueda):
-    ventana2 = grafico.Toplevel();
-    ventana2.title("RESULTADOS");
-    ventana2.geometry("700x500");
+    ventana = Toplevel();#creacion de una ventana secundaria
+    ventana.title("RESULTADOS");#titulo de la ventana
 
-    
+    # Crear un widget Canvas con una barra de desplazamiento vertical
+    canvas = Canvas(ventana);
+    scrollbar = Scrollbar(ventana, orient="vertical", command=canvas.yview);#creacion del la barra de desplazamiento vertical para cuando el usuario pide muchos registros.
+    scrollbar.pack(side="right", fill="y");
+    canvas.configure(yscrollcommand=scrollbar.set);
 
-    columnas = resultados_busqueda.columns;
+    # Agregar el widget Canvas a la ventana principal
+    canvas.pack(side="left", fill="both", expand=True);
 
+    # Crear un frame dentro del widget Canvas para contener el contenido
+    frame = Frame(canvas);
+    canvas.create_window((0, 0), window=frame, anchor="nw");
 
+    # Agregar el contenido al frame
+    columna = resultados_busqueda.columns
     y = 0;
-
-    for x in range(len(columnas)):
-        if columnas[x] == "ubicacion" or columnas[x] == "departamento_nom" or columnas[x] == "edad" or columnas[x] == "fuente_tipo_contagio" or columnas[x] == "estado" or columnas[x] == "tipo_recuperacion":
-            columna = grafico.Label(ventana2,text=f" {columnas[x]} ");
-            columna.grid(row=0 , column=y);
+    for x in range(len(columna)):#Bucle para la impresion del nombre de las columnas solicitadas.
+        if columna[x] == "ubicacion" or columna[x] == "departamento_nom" or columna[x] == "ciudad_municipio_nom" or columna[x] == "edad" or columna[x] == "fuente_tipo_contagio" or columna[x] == "estado" or columna[x] == "tipo_recuperacion":
+            columnas =Label(frame,text=f" {columna[x]} ");
+            columnas.grid(row=0, column=y);
             y = y + 1;
 
-    z = 0;
-
-    for j in range (len(resultados_busqueda)):
+    z = 0
+    for j in range (len(resultados_busqueda)):#Bucle de impresion de los datos por un doble bucle donde se verifica que el dato que se imprima pertenezca a una de las columnas solicitadas
         for i in range (len(resultados_busqueda.columns)):
-            if columnas[i] == "ubicacion" or columnas[i] == "departamento_nom" or columnas[i] == "edad" or columnas[i] == "fuente_tipo_contagio" or columnas[i] == "estado" or columnas[i] == "tipo_recuperacion":
-                fila = grafico.Label(ventana2,text=f"{resultados_busqueda.iloc[j][i]}");
-                fila.grid(row=j+1,column=z);
+            if columna[i] == "ubicacion" or columna[i] == "departamento_nom" or columna[i] == "ciudad_municipio_nom" or columna[i] == "edad" or columna[i] == "fuente_tipo_contagio" or columna[i] == "estado" or columna[i] == "tipo_recuperacion":
+                fila = Label(frame,text=f"{resultados_busqueda.iloc[j][i]}")
+                fila.grid(row=j+1, column=z)
                 z = z + 1;
-            
             if i >= 18:
                 i = 0;
                 z = 0;
-            else: 
-                i+=1
+            else:                                               
+                i+=1;
 
-
-    #scroll = grafico.Scrollbar(ventana2)
-    #scroll.pack(side="bottom" , fill=grafico.X)
-
-    
+    # Configurar el tamaño del widget Canvas y el frame interno
+    frame.update_idletasks();
+    canvas.config(scrollregion=canvas.bbox("all"));
+    canvas.config(width=700, height=500);
+    ventana.mainloop();
     
     
