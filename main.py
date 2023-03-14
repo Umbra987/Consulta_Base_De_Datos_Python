@@ -23,6 +23,7 @@ def consulta():
 #Ventana de consulta
 ventana = grafico.Tk();
 ventana.geometry("700x500");
+ventana.iconbitmap("virus.ico");
 ventana.title("Contaminación COVID-19");
 
 

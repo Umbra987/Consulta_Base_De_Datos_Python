@@ -15,7 +15,6 @@ def consulta_base_de_datos(departamentoName,limite):
         results = client.get("gt2j-8ykr", limit=limite,departamento_nom = departamentoName);
     # Convert to pandas DataFrame
         results_df = pd.DataFrame.from_records( results );
-
         return(results_df);
    
 
